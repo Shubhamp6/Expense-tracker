@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Collapse, IconButton, useTheme, Paper, useMediaQuery, Typography, Button, ButtonBase, styled, Grid, Avatar, InputBase, NativeSelect, MenuItem, TablePagination } from "@mui/material"
+import { Box, Collapse, IconButton, useTheme, Paper, useMediaQuery, Typography, Button, ButtonBase, styled, Grid, Avatar, InputBase, NativeSelect, MenuItem, TablePagination, CircularProgress } from "@mui/material"
 import { center } from "../../assets/css/theme/common";
 import { ExpensierLogo } from "../../components/layouts/common/Logo";
 import CustomInput from "../../components/inputs/CustomInput";
@@ -7,7 +7,7 @@ import { CreateUserPerson } from "../../components/layouts/common/Logo";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const SighUpUI = ({ loading, formValues, setFormValues }) => {
+const SighUpUI = ({ loading, formValues, setFormValues, onSubmit }) => {
     const navigate = useNavigate();
     const SighUp = styled(ButtonBase)(({ theme }) => ({
         width: "285px",
@@ -41,7 +41,7 @@ const SighUpUI = ({ loading, formValues, setFormValues }) => {
                                 <Typography variant="p">
                                     Have an Account!&nbsp;&nbsp;
                                 </Typography>
-                                <Typography variant="p" sx={{ textDecoration: "underline",cursor:"pointer" }} LinkComponent={Link} onClick={() => {
+                                <Typography variant="p" sx={{ textDecoration: "underline", cursor: "pointer" }} LinkComponent={Link} onClick={() => {
                                     navigate("/")
                                 }}>
                                     Log In
@@ -56,9 +56,11 @@ const SighUpUI = ({ loading, formValues, setFormValues }) => {
                         <Typography variant="p" color="error">{formValues.err}</Typography>
                         <Box sx={{ width: "285px" }}>
                             <CustomInput
+                                inputProps={{ sx: { color: "text.white" } }}
                                 disabled={loading}
                                 type="text"
                                 label="Name*"
+                                color="light"
                                 value={formValues.name}
                                 onChange={(e) =>
                                     setFormValues({
@@ -67,11 +69,14 @@ const SighUpUI = ({ loading, formValues, setFormValues }) => {
                                         name: e.target.value,
                                     })
                                 }
+                                focused
                             />
                             <CustomInput
+                                inputProps={{ sx: { color: "text.white" } }}
                                 disabled={loading}
                                 type="text"
                                 label="Email*"
+                                color="light"
                                 value={formValues.email}
                                 onChange={(e) =>
                                     setFormValues({
@@ -80,18 +85,14 @@ const SighUpUI = ({ loading, formValues, setFormValues }) => {
                                         email: e.target.value,
                                     })
                                 }
+                                focused
                             />
                             <CustomInput
-                                InputProps={{
-                                    style: {
-                                        label: {
-                                            color: `#fff !important`,
-                                        }
-                                    }
-                                }}
+                                inputProps={{ sx: { color: "text.white" } }}
                                 disabled={loading}
-                                type="text"
+                                type="password"
                                 label="Password*"
+                                color="light"
                                 value={formValues.password}
                                 onChange={(e) =>
                                     setFormValues({
@@ -100,12 +101,22 @@ const SighUpUI = ({ loading, formValues, setFormValues }) => {
                                         password: e.target.value,
                                     })
                                 }
+                                focused
                             />
                         </Box>
                     </Box>
-                    <SighUp>
-                        <CreateUserPerson />
-                        <Typography sx={{ ...center }} color="primary.main" >Create Account</Typography>
+                    <SighUp loading={loading} onClick={onSubmit}>
+                        {
+                            loading && <>
+                                <CircularProgress />
+                            </>
+                        }
+                        {
+                            !loading && <>
+                                <CreateUserPerson />
+                                <Typography sx={{ ...center }} color="primary.main" >Create Account</Typography>
+                            </>
+                        }
                     </SighUp>
                 </Box>
             </Box>

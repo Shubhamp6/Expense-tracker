@@ -5,7 +5,6 @@ const Transactionschema = mongoose.Schema(
     description: {
       type: String,
       required: true,
-      lowercase: true,
     },
     amount: {
       type: Number,
@@ -23,6 +22,10 @@ const Transactionschema = mongoose.Schema(
         require: true,
       },
       name: {
+        type: String,
+        require: true,
+      },
+      icon: {
         type: String,
         require: true,
       },

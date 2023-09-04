@@ -3,33 +3,33 @@ import { LEAVE_RESPONSE, REIMBURSEMENT_STATUS } from './constants'
 
 export const accessToken = {
   set: (val) => {
-    localStorage.setItem('wehear_payroll_access_token', val)
+    localStorage.setItem('accessToken', val)
   },
-  get: () => localStorage.getItem('wehear_payroll_access_token'),
+  get: () => localStorage.getItem('accessToken'),
   remove: () => {
-    localStorage.removeItem('wehear_payroll_access_token')
+    localStorage.removeItem('accessToken')
   },
 }
 export const loggedInUser = {
   set: (val) => {
-    localStorage.setItem('wehear_payroll_user', JSON.stringify(val))
+    localStorage.setItem('user', JSON.stringify(val))
   },
   get: () =>
-    localStorage.getItem('wehear_payroll_user')
-      ? JSON.parse(localStorage.getItem('wehear_payroll_user'))
+    localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user'))
       : null,
   remove: () => {
-    localStorage.removeItem('wehear_payroll_user')
+    localStorage.removeItem('user')
   },
 }
 
 export const refreshToken = {
   set: (val) => {
-    localStorage.setItem('wehear_payroll_refresh_token', val)
+    localStorage.setItem('refreshToken', val)
   },
-  get: () => localStorage.getItem('wehear_payroll_refresh_token'),
+  get: () => localStorage.getItem('refreshToken'),
   remove: () => {
-    localStorage.removeItem('wehear_payroll_refresh_token')
+    localStorage.removeItem('refreshToken')
   },
 }
 

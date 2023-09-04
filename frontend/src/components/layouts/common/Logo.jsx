@@ -3,6 +3,10 @@ import { CenteredBox } from "./boxes";
 import LogoImage from "./../../../assets/images/WEHEARHRMS.png";
 import Expensier from "./../../../assets/images/Expensier.png";
 import Logout from "./../../../assets/images/Logout.png"
+import Cryptoplaceholder from "./../../../assets/images/Crypto Placeholder.png"
+import Dashboardplaceholer from "./../../../assets/images/Transaction Placeholder 1.png"
+import Graphplaceholder from "./../../../assets/images/Graph Placeholder.png"
+import Subscriptionsplaceholder from "./../../../assets/images/Subscription Placeholder.png"
 
 export const Logo = ({ ...rest }) => {
   return (
@@ -15,6 +19,55 @@ export const Logo = ({ ...rest }) => {
     </CenteredBox>
   );
 };
+
+export const CryptoPlaceholder = ({ ...rest }) => {
+  return (
+    <CenteredBox {...rest}>
+      <img
+        src={Cryptoplaceholder}
+        style={{ width: "100%", maxWidth: "160px", objectFit: "contain" }}
+        alt=""
+      />
+    </CenteredBox>
+  );
+};
+
+export const DashboardPlaceholder = ({ ...rest }) => {
+  return (
+    <CenteredBox {...rest}>
+      <img
+        src={Dashboardplaceholer}
+        style={{ width: "100%", maxWidth: "160px", objectFit: "contain" }}
+        alt=""
+      />
+    </CenteredBox>
+  );
+};
+
+export const GraphPlaceholder = ({ ...rest }) => {
+  return (
+    <CenteredBox {...rest}>
+      <img
+        src={Graphplaceholder}
+        style={{ width: "100%", maxWidth: "160px", objectFit: "contain" }}
+        alt=""
+      />
+    </CenteredBox>
+  );
+};
+
+export const SubscriptionsPlaceholder = ({ ...rest }) => {
+  return (
+    <CenteredBox {...rest}>
+      <img
+        src={Subscriptionsplaceholder}
+        style={{ width: "100%", maxWidth: "160px", objectFit: "contain" }}
+        alt=""
+      />
+    </CenteredBox>
+  );
+};
+
 
 export const ExpensierLogo = ({ ...rest }) => {
   return (

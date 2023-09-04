@@ -31,6 +31,11 @@ const UpdateTransactionController = [
     .withMessage("catergory name of transaction is required!")
     .trim()
     .escape(),
+  body("category_icon")
+    .notEmpty({ ignore_whitespace: true })
+    .withMessage("catergory icon of transaction is required!")
+    .trim()
+    .escape(),
 
   PayloadValidatorMiddleware,
   async (req, res) => {
@@ -40,6 +45,7 @@ const UpdateTransactionController = [
       const category = {
         id: mongoose.Types.ObjectId(req.body.category_id),
         name: req.body.category_name,
+        icon: req.body.category_icon,
       };
       const data = {};
       data["amount"] = amount;

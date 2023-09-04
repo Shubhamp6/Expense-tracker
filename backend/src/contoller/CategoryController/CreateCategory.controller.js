@@ -22,13 +22,15 @@ const CreateCategoryController = [
   PayloadValidatorMiddleware,
   async (req, res) => {
     try {
-      const data = matchedData(req);
+      const data = {};
+      data["name"] = req.body.name;
+      data["icon"] = req.body.icon;
       data["creator_id"] = mongoose.Types.ObjectId(req.user._id);
+      console.log(data);
       await CategoryModel.create(data);
       return apiResponseHelper.successResponse(res, "category added");
     } catch (error) {
-
-      console.log(error)
+      console.log(error);
       return apiResponseHelper.errorResponse(res, _lang("server_error"));
     }
   },

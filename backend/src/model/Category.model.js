@@ -4,7 +4,6 @@ const Categoryschema = mongoose.Schema({
   name: {
     type: String,
     required: true,
-    lowercase: true,
   },
   creator_id: {
     type: mongoose.Schema.ObjectId,

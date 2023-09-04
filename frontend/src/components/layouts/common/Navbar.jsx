@@ -61,11 +61,10 @@ const NavItemContainer = styled(ButtonBase)(({ theme, Active }) => ({
     }
 }))
 
-const NavItem = memo(({ active, title, path, Icon ,activeIcon}) => {
+const NavItem = memo(({ active, title, path, Icon, activeIcon }) => {
     const location = useLocation()
     let splittedPath = location.pathname.split('/')
-    let Active = splittedPath[1]==title.toLowerCase();
-    console.log(Active,path);
+    let Active = splittedPath[1] == title.toLowerCase();
     return (
         <NavItemContainer Active={Active} to={path} LinkComponent={Link}>
             {Active ? activeIcon : Icon}
@@ -73,7 +72,7 @@ const NavItem = memo(({ active, title, path, Icon ,activeIcon}) => {
         </NavItemContainer>
     )
 })
-const NavDropDown = memo(({ activeParent, title, Icon, path, children,activeIcon }) => {
+const NavDropDown = memo(({ activeParent, title, Icon, path, children, activeIcon }) => {
 
     const [open, setOpen] = useState(activeParent)
     const location = useLocation()
@@ -88,7 +87,7 @@ const NavDropDown = memo(({ activeParent, title, Icon, path, children,activeIcon
                 children && Array.isArray(children) && children.map((route) => {
                     if (route.hideInPannel)
                         return <Fragment key={route.title} />
-                    return <NavItem key={route.title} active={((splittedPath[2] == route.path && splittedPath[1] == path) || (splittedPath[1] == '' && splittedPath[1] == path))} title={route.title} path={`/${path}/${route.path}`} Icon={Icon} activeIcon={activeIcon}/>
+                    return <NavItem key={route.title} active={((splittedPath[2] == route.path && splittedPath[1] == path) || (splittedPath[1] == '' && splittedPath[1] == path))} title={route.title} path={`/${path}/${route.path}`} Icon={Icon} activeIcon={activeIcon} />
                 })
             }
         </>
@@ -108,7 +107,7 @@ const Navbar = () => {
                     // const path = 
                     if (route.hideInPannel)
                         return <Fragment key={route.title} />
-                    return <NavDropDown key={route.title} activeParent={splittedPath && splittedPath[1] == route.path} Icon={route.icon} children={route.children} title={route.title} path={route.path} activeIcon={route.activeIcon}/>
+                    return <NavDropDown key={route.title} activeParent={splittedPath && splittedPath[1] == route.path} Icon={route.icon} children={route.children} title={route.title} path={route.path} activeIcon={route.activeIcon} />
                 })
             }
         </>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Collapse, IconButton, useTheme, Paper, useMediaQuery, Typography, Button, ButtonBase, styled, Grid, Avatar, InputBase, NativeSelect, MenuItem, TablePagination } from "@mui/material"
+import { Box, Collapse, IconButton, useTheme, Paper, useMediaQuery, Typography, Button, ButtonBase, styled, Grid, Avatar, InputBase, NativeSelect, MenuItem, TablePagination, CircularProgress } from "@mui/material"
 import { center } from "../../assets/css/theme/common";
 import { ExpensierLogo } from "../../components/layouts/common/Logo";
 import CustomInput from "../../components/inputs/CustomInput";
@@ -54,10 +54,19 @@ const LoginUI = ({ loading, formValues, setFormValues, onSubmit }) => {
                         <Typography variant="p" color="error">{formValues.err}</Typography>
                         <Box sx={{ width: "285px" }}>
                             <CustomInput
+                                inputProps={{
+                                    sx: {
+                                        color: "text.white"
+                                    },
+                                    label: {
+                                        color: "text.white"
+                                    }
+                                }}
                                 disabled={loading}
                                 type="text"
                                 label="Email*"
                                 value={formValues.email}
+                                color="text"
                                 onChange={(e) =>
                                     setFormValues({
                                         ...formValues,
@@ -65,17 +74,17 @@ const LoginUI = ({ loading, formValues, setFormValues, onSubmit }) => {
                                         email: e.target.value,
                                     })
                                 }
+                                focused
                             />
                             <CustomInput
-                                InputProps={{
-                                    style: {
-                                        label: {
-                                            color: `#fff !important`,
-                                        }
+                                inputProps={{
+                                    sx: {
+                                        color: "text.white"
                                     }
                                 }}
+                                color="light"
                                 disabled={loading}
-                                type="Password"
+                                type="password"
                                 label="Password*"
                                 value={formValues.password}
                                 onChange={(e) =>
@@ -85,12 +94,22 @@ const LoginUI = ({ loading, formValues, setFormValues, onSubmit }) => {
                                         password: e.target.value,
                                     })
                                 }
+                                focused
                             />
                         </Box>
                     </Box>
-                    <Login onClick={onSubmit}>
-                        <LogIn />
-                        <Typography sx={{ ...center }} color="primary.main">Log In</Typography>
+                    <Login loading={loading} onClick={onSubmit}>
+                        {
+                            loading && <>
+                                <CircularProgress sx={{ height: "24px" }} />
+                            </>
+                        }
+                        {
+                            !loading && <>
+                                <LogIn />
+                                <Typography sx={{ ...center }} color="primary.main">Log In</Typography>
+                            </>
+                        }
                     </Login>
                 </Box>
             </Box>

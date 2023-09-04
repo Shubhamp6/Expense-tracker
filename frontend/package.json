@@ -1,5 +1,6 @@
 {
   "name": "expance_traker_frontend",
+  "homepage": "/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,6 +19,7 @@
     "axios": "^1.1.3",
     "dom-to-image": "^2.6.0",
     "dotenv": "^16.3.1",
+    "emoji-picker-react": "^4.4.10",
     "firebase": "^9.17.2",
     "html-react-parser": "^3.0.9",
     "html2canvas": "^1.4.1",
@@ -39,6 +41,8 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -6,7 +6,6 @@ const Userschema = mongoose.Schema({
   name: {
     type: String,
     required: [true, "Enter Your Name"],
-    lowercase: true,
   },
   email: {
     type: String,

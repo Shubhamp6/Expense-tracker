@@ -3,8 +3,9 @@ import { Box, Collapse, IconButton, useTheme, Paper, useMediaQuery, Typography, 
 import CustomInput from "./../../../components/inputs/CustomInput"
 import AsyncDropDown from "./../../../components/inputs/AsyncDropDown"
 import SubmitButton from "../../../components/button/SubmitButton";
+import { getCategoryApi } from "../../../apis/category.api";
 
-const UpdateExpanceUI = ({ loading, formValues, setFormValues }) => {
+const UpdateExpanceUI = ({ loading, formValues, setFormValues, updateExpnace, row }) => {
     return (
         <>
             <Box>
@@ -15,13 +16,13 @@ const UpdateExpanceUI = ({ loading, formValues, setFormValues }) => {
                     <CustomInput
                         disabled={loading}
                         type="text"
-                        label="Decription*"
-                        value={formValues.decription}
+                        label="Description*"
+                        value={formValues.description}
                         onChange={(e) =>
                             setFormValues({
                                 ...formValues,
                                 err: "",
-                                decription: e.target.value,
+                                description: e.target.value,
                             })
                         }
                     />
@@ -45,30 +46,33 @@ const UpdateExpanceUI = ({ loading, formValues, setFormValues }) => {
                     <Grid item xs={6}>
                         <AsyncDropDown
                             InputComponent={(props) => <CustomInput label="Category*" placeholder="Select Category"  {...props} />}
-                            // lazyFun={async (props) => {
-                            //     return await fetchBranches({ ...props })
-                            // }}
+                            lazyFun={async (props) => {
+                                return await getCategoryApi({ ...props })
+                            }}
                             label="Category"
                             onChange={async (changedVal) => {
                                 setFormValues({
                                     ...formValues,
                                     err: "",
-                                    category_id: changedVal._id,
+                                    category_name: changedVal.name,
+                                    category_icon: changedVal.icon,
+                                    category_id: changedVal._id
                                 })
                             }}
                             titleKey={'name'}
                             valueKey={"_id"}
-                        // OptionComponent={({ option, ...rest }) => {
-                        //     return <Box sx={{ width: "100%", display: "flex", alignItems: "center" }} {...rest}>
-                        //         <Typography ml={3} variant="h5">{option.name}</Typography>
-                        //     </Box>
-                        // }}
-
+                            OptionComponent={({ option, ...rest }) => {
+                                return <Box sx={{ width: "100%", display: "flex", alignItems: "center", position: "relative", zIndex: 4 }} {...rest}>
+                                    <Typography ml={3} variant="h5">{option.icon}&nbsp;&nbsp;{option.name}</Typography>
+                                </Box>
+                            }}
                         />
                     </Grid>
                 </Grid>
                 <Box sx={{ display: "flex", justifyContent: "end", width: "70px", marginLeft: "auto", marginTop: "10px" }}>
-                    <SubmitButton title={'Update'}></SubmitButton>
+                    <SubmitButton loading={loading} title={'Update'} onClick={() => {
+                        updateExpnace(formValues, row._id);
+                    }}></SubmitButton>
                 </Box>
             </Box>
         </>

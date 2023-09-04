@@ -11,7 +11,7 @@ import PieChartOutlineIcon from '@mui/icons-material/PieChartOutline'
 import EventAvailableIcon from '@mui/icons-material/EventAvailable'
 import ArticleIcon from '@mui/icons-material/Article'
 import SettingsIcon from '@mui/icons-material/Settings'
-import { DashboardIcon,TransactionsIcon,PortfolioIcon,ActiveDashboardIcon,ActiveTransactionsIcon } from './components/layouts/common/Logo'
+import { DashboardIcon, TransactionsIcon, PortfolioIcon, ActiveDashboardIcon, ActiveTransactionsIcon } from './components/layouts/common/Logo'
 import DashboardController from './Pages/Dashboard/DashboardController'
 import TransactionController from './Pages/Transaction/TransactionController'
 import LoginController from './Pages/LogIn/LoginController'
@@ -21,47 +21,68 @@ const defineRoutes = (user) => {
   return [
     {
       path: '',
-      element:<LoginController/>,
+      element: !user.isLoggedIn ? (
+        <LoginController />
+      ) : (
+        <Navigate replace to="/dashboard" />
+      ),
       hideInPannel: true,
     },
     {
       path: 'create-user',
-      element:<SighUpController/>,
+      element: <SighUpController />,
       hideInPannel: true,
     },
     {
-      activeIcon:<ActiveDashboardIcon/>,
-      icon : <DashboardIcon/>,
+      activeIcon: <ActiveDashboardIcon />,
+      icon: <DashboardIcon />,
       path: 'dashboard',
-      element:<AppContainer/>,
+      element: user.isLoggedIn ? (
+        <AppContainer />
+      ) : (
+        <Navigate replace to="/" />
+      ),
       // hideInPannel: true,
       children: [
         {
           path: '',
           title: 'Dashboard',
-          element: <DashboardController/>
+          element: <DashboardController />
         }
       ]
     },
     {
-      activeIcon:<ActiveTransactionsIcon/>,
-      icon : <TransactionsIcon/>,
+      activeIcon: <ActiveTransactionsIcon />,
+      icon: <TransactionsIcon />,
       path: 'transactions',
-      element:<AppContainer/>,
+      element: user.isLoggedIn ? (
+        <AppContainer />
+      ) : (
+        <Navigate replace to="/" />
+      ),
       // hideInPannel: true,
       children: [
         {
           path: '',
           title: 'Transactions',
-          element: <TransactionController/>
+          element: <TransactionController />
         }
       ]
     },
+    {
+      path: '*',
+      element: !user.isLoggedIn ? (
+        <Navigate replace to={'/sign-in'} />
+      ) : (
+        <Navigate replace to="/" />
+      ),
+      hideInPannel: true,
+    }
   ]
 }
 export default defineRoutes
 
-/* 
+/*
 
 ================================================================
 Demo Object

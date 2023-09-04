@@ -14,9 +14,9 @@ const userReducer = (state = initialState, action) => {
 
         case actions.SET_USER: return { ...state, data: action.value, isLoggedIn: true };
         case actions.SIGN_IN: {
-            accessToken.set(action.value.access_token)
+            accessToken.set(action.value.accessToken)
             
-            refreshToken.set(action.value.refresh_token)
+            refreshToken.set(action.value.refreshToken)
             return { ...state, data: action.value,  isLoggedIn: true };
         }
         case actions.SIGN_OUT: return { ...state, data: {},  isLoggedIn: false };

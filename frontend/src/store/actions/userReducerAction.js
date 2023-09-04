@@ -1,11 +1,11 @@
 import { signInApi } from "../../apis/auth.api"
 import getUserAndSystemDataApi from "../../apis/user.api"
 import { actions } from "../../utils/constants"
-import {  logOut } from "../../utils/helper"
+import { logOut } from "../../utils/helper"
 import { callApiAction } from "./commonAction"
 
 
-export const signInAction = (data, onError,onSuccess) => {
+export const signInAction = (data, onError, onSuccess) => {
     return async (dispatch, getState) => {
         dispatch(callApiAction(
             async () => await signInApi(data),
@@ -14,7 +14,7 @@ export const signInAction = (data, onError,onSuccess) => {
                 onSuccess()
             },
             (err) => {
-                
+
                 onError(err)
             }
         ))
@@ -23,7 +23,7 @@ export const signInAction = (data, onError,onSuccess) => {
 
 }
 
-export const fetchUserDetails = (data,onSuccess, onError) => {
+export const fetchUserDetails = (data, onSuccess, onError) => {
     return async (dispatch, getState) => {
         dispatch(callApiAction(
             async () => await getUserAndSystemDataApi(data),
@@ -32,7 +32,7 @@ export const fetchUserDetails = (data,onSuccess, onError) => {
                 onSuccess(response)
             },
             (err) => {
-                
+
                 onError(err)
             }
         ))

@@ -2,11 +2,9 @@ import axios from "axios";
 import { getHeaders } from "../utils/helper";
 import endpoints from "./endpoints";
 
-export const addCategoryApi = async (data) => {
-  console.log(data);
-  console.log(endpoints.category);
+export const addTransactionApi = async (data) => {
   const callResponse = await axios({
-    url: endpoints.category,
+    url: endpoints.transaction,
     method: "POST",
     headers: getHeaders(),
     data,
@@ -21,11 +19,12 @@ export const addCategoryApi = async (data) => {
   return callResponse;
 };
 
-export const getCategoryApi = async () => {
+export const getTrasactionApi = async (params) => {
   const callResponse = await axios({
-    url: endpoints.category,
+    url: endpoints.transaction,
     method: "get",
-    headers: getHeaders()
+    headers: getHeaders(),
+    params
   })
     .then((response) => response.data)
     .catch((err) => ({
@@ -37,9 +36,9 @@ export const getCategoryApi = async () => {
   return callResponse;
 };
 
-export const updateCategoryFieldApi = async (data, params) => {
+export const updateTrasactionFieldApi = async (data,params) => {
   const callResponse = await axios({
-    url: endpoints.category,
+    url: endpoints.transaction,
     method: "PATCH",
     headers: getHeaders(),
     data,
@@ -55,9 +54,9 @@ export const updateCategoryFieldApi = async (data, params) => {
   return callResponse;
 };
 
-export const deleteCategoryApi = async (data) => {
+export const deleteTransactionApi = async (data) => {
   const callResponse = await axios({
-    url: endpoints.category,
+    url: endpoints.transaction,
     method: "DELETE",
     headers: getHeaders(),
     data,

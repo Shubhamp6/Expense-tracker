@@ -9,10 +9,10 @@ import {
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useState } from 'react'
-const formControlStyle = (theme,props) => {
+const formControlStyle = (theme, props) => {
   return {
     // marginTop: theme.spacing
-    color:props.color ? props.color : "rgba(0, 0, 0, 0.6)"
+    color: props && props.color ? props.color : "rgba(0, 0, 0, 0.6)"
   }
 }
 const CustomInput = (props) => {
@@ -26,8 +26,9 @@ const CustomInput = (props) => {
         mt={1}
         mb={1}
         variant="outlined"
+        focused
       >
-        <InputLabel htmlFor="outlined-adornment-password">
+        <InputLabel htmlFor="outlined-adornment-password" color="white">
           {props.label ? props.label : 'password'}
         </InputLabel>
         <OutlinedInput
@@ -43,13 +44,14 @@ const CustomInput = (props) => {
                 onClick={() => {
                   setType(type === 'password' ? 'text' : 'password')
                 }}
-                color="secondary"
+                color="white"
                 edge="end"
               >
                 {type === 'password' ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           }
+          focused
         />
       </FormControl>
     )
@@ -100,7 +102,7 @@ const CustomInput = (props) => {
         sx: {
           // zIndex:"-1",
           // border:" 0.078vw solid #A91674",
-          borderRadius: 'inherit',
+          borderRadius: 'inherit'
         },
 
       }}

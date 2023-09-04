@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Collapse, IconButton, useTheme, Paper, useMediaQuery, Typography, Button, ButtonBase, styled, Grid, Avatar, InputBase, NativeSelect, MenuItem, TablePagination } from "@mui/material"
+import { Box, Collapse, IconButton, useTheme, Paper, useMediaQuery, Typography, Button, ButtonBase, styled, Grid, Avatar, InputBase, NativeSelect, MenuItem, TablePagination, Skeleton } from "@mui/material"
 import { Calender, MenuIcon, Delete, Update } from "./../../components/layouts/common/Logo"
 import SearchIcon from '@mui/icons-material/Search';
 import { alpha } from '@mui/material/styles';
@@ -7,10 +7,14 @@ import FolderIcon from '@mui/icons-material/Folder';
 import CustomDatePicker from "../../components/layouts/common/CustomDatePicker";
 import { openModal, closeModal } from "../../store/actions/modalAction";
 import { center } from "../../assets/css/theme/common";
+import { SubscriptionsPlaceholder, DashboardPlaceholder } from "./../../components/layouts/common/Logo";
 
-const TransactionUI = ({ date, setDate, expanseData, filters, setFilters, addNewExpanceModal, updateExpance, AddCategory }) => {
+const TransactionUI = ({ loading, expanseLoading, date, setDate, search, setSearch, expanseData, filters, setFilters, addNewExpanceModal, updateExpance, AddCategory, categorydata, updateCategory, deleteCategory, deleteExpance }) => {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
     const [currentExpenseItem, setCurrentExpenseItem] = useState(null);
+    const [isCategoryMenuVisible, setCategoryIsMenuVisible] = useState(false);
+    const [currentCategoryItem, setCurrentCategoryItem] = useState(null);
+    const [deleteC, setDeleteC] = useState(false)
     const transactionExpanseOuter = (theme) => ({
 
     })
@@ -77,13 +81,14 @@ const TransactionUI = ({ date, setDate, expanseData, filters, setFilters, addNew
         alignItems: 'center',
         justifyContent: 'center',
     }));
-    const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    const StyledInputBase = styled(InputBase)(({ theme, search }) => ({
         color: 'inherit',
         '& .MuiInputBase-input': {
             padding: theme.spacing(1, 1, 1, 0),
             paddingLeft: `calc(1em + ${theme.spacing(4)})`,
             transition: theme.transitions.create('width'),
             width: '100%',
+            value: { search },
             [theme.breakpoints.up('md')]: {
                 width: '20ch',
             },
@@ -107,6 +112,16 @@ const TransactionUI = ({ date, setDate, expanseData, filters, setFilters, addNew
         overflow: "auto",
         transition: "all 0.3s ease",
         cursor: "pointer",
+        "&:hover": {
+            boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.2)",
+            // transform: "scale(1.1)",
+            position: "relative",
+            zIndex: 99,
+        }
+    })
+    const expanseInnerForRecent = (theme) => ({
+        marginTop: "20px",
+        transition: "all 0.3s ease",
         "&:hover": {
             boxShadow: "0 2px 2px 0 rgba(0, 0, 0, 0.2)",
             // transform: "scale(1.1)",
@@ -144,53 +159,78 @@ const TransactionUI = ({ date, setDate, expanseData, filters, setFilters, addNew
                                         <StyledInputBase
                                             placeholder="Search…"
                                             inputProps={{ 'aria-label': 'search' }}
+                                            value={search}
+                                            onChange={(e) => {
+                                                setSearch(e.target.value)
+                                            }}
                                         />
                                     </Search>
                                 </Box>
                             </Box>
                             <Box>
                                 <Box mt={"15px"} sx={expanseOuter}>
-                                    {expanseData && expanseData.length > 0 &&
-                                        expanseData.map((row, index) => (
-                                            <Box sx={expanseInner}
+                                    {
+                                        expanseLoading && <>
+                                            <Skeleton variant="rectangular" height={"60px"} width={"100%"} />
+                                            <Skeleton sx={{ marginTop: "8px" }} variant="rectangular" height={"60px"} width={"100%"} />
+                                            <Skeleton sx={{ marginTop: "8px" }} variant="rectangular" height={"60px"} width={"100%"} />
+                                        </>
+                                    }
+                                    {
+                                        !expanseLoading && expanseData && expanseData.total == 0 && <>
+                                            <Box sx={{ ...center, flexDirection: "column", gap: "30px", marginTop: "20px" }}>
+                                                <DashboardPlaceholder />
+                                                <Box sx={{ width: "270px", ...center, flexDirection: "column", gap: "20px" }}>
+                                                    <Typography variant="h4">
+                                                        It looks a bit empty here!
+                                                    </Typography>
+                                                    <Typography variant="p">
+                                                        Your expenses will appear on this page. Add your first expense by clicking the “Add new” button above.
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
+                                        </>
+                                    }
+                                    {
+                                        !expanseLoading && expanseData && expanseData.total > 0 && expanseData.result &&
+                                        expanseData.result.map((row, index) => (
+                                            <Grid container spacing={"4px"} sx={expanseInnerForRecent}
                                                 onMouseEnter={() => {
                                                     setIsMenuVisible(true);
                                                     setCurrentExpenseItem(index);
                                                 }}
                                                 onMouseLeave={() => setIsMenuVisible(false)}>
-                                                <Box>
-                                                    <Avatar sx={{ bgcolor: "primary.main", width: "50px", height: "50px" }}>
-                                                        <FolderIcon />
+                                                <Grid item xs={2}>
+                                                    <Avatar sx={{ bgcolor: "light.main", width: "50px", height: "50px" }}>
+                                                        {row && row.category && row.category.icon}
                                                     </Avatar>
-                                                </Box>
-                                                <Box sx={{
-                                                    display: "flex", justifyContent: "space-between", flex: "1 0 0"
-                                                }}>
-                                                    <Box>
-                                                        <Typography variant="h4" color={"white"} sx={{ marginTop: "6px" }}>Food</Typography>
-                                                    </Box>
-                                                    <Box>
-                                                        <Typography variant="p" color={"Gray"}>Date</Typography>
-                                                        <Typography variant="h4" color={"white"}>Oct 1</Typography>
-                                                    </Box>
-                                                    <Box>
-                                                        <Typography variant="h3">₹200.00</Typography>
-                                                    </Box>
-                                                    <Box sx={{ marginTop: "8px" }}>
-                                                        {/* {!isMenuVisible && <MenuIcon />} */}
-                                                        {isMenuVisible && currentExpenseItem == index && (
-                                                            <Box sx={{ ...center, gap: "3px" }}>
-                                                                <ButtonBase onClick={updateExpance}>
-                                                                    <Update />
-                                                                </ButtonBase>
-                                                                <ButtonBase>
-                                                                    <Delete />
-                                                                </ButtonBase>
-                                                            </Box>
-                                                        )}
-                                                    </Box>
-                                                </Box>
-                                            </Box>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <Typography variant="h4" color={"white"} sx={{ marginTop: "6px" }}>{row && row.description}</Typography>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Typography variant="p" color={"Gray"}>Date</Typography>
+                                                    <Typography variant="h4" color={"white"}>{new Date(row.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
+                                                </Grid>
+                                                <Grid item xs={2}>
+                                                    <Typography variant="h3">₹{row && row.amount}</Typography>
+                                                </Grid>
+                                                <Grid sx={{ marginTop: "8px" }} item xs={1}>
+                                                    {/* {!isMenuVisible && <MenuIcon />} */}
+                                                    {isMenuVisible && currentExpenseItem == index && (
+                                                        <Box sx={{ ...center, gap: "3px" }}>
+                                                            <ButtonBase onClick={() => { updateExpance(row) }}>
+                                                                <Update />
+                                                            </ButtonBase>
+                                                            <ButtonBase onClick={() => {
+                                                                deleteExpance(row._id)
+                                                            }}>
+                                                                <Delete />
+                                                            </ButtonBase>
+                                                        </Box>
+                                                    )}
+                                                </Grid>
+                                            </Grid>
                                         ))
                                     }
                                 </Box>
@@ -199,11 +239,11 @@ const TransactionUI = ({ date, setDate, expanseData, filters, setFilters, addNew
 
                                     </Grid>
                                     <Grid item xs={7}>
-                                        {expanseData && expanseData.length > 0 && (
+                                        {expanseData && expanseData.total > 0 && expanseData.result && (
                                             <TablePagination
                                                 rowsPerPageOptions={[10, 25, 100]}
                                                 component="div"
-                                                count={expanseData.length}
+                                                count={expanseData.total}
                                                 rowsPerPage={parseInt(filters.pageSize)}
                                                 page={parseInt(filters.pageNo) - 1}
                                                 onPageChange={(e, pageNo) => {
@@ -214,7 +254,7 @@ const TransactionUI = ({ date, setDate, expanseData, filters, setFilters, addNew
                                                 }}
                                                 sx={{
                                                     width: "100%",
-                                                    color: "white",
+                                                    color: "light.main",
                                                     backgroundColor: alpha("#fff", 0.15),
                                                     '&:hover': {
                                                         backgroundColor: alpha("#fff", 0.25),
@@ -253,23 +293,60 @@ const TransactionUI = ({ date, setDate, expanseData, filters, setFilters, addNew
                         </Box>
                         <Box>
                             <Box mt={"15px"} sx={categoryOuter}>
-                                {
-                                    [1, 2, 3, 4, 5, 6, 7, 8, 9].map((row, index) => (
-                                        <Box sx={expanseInner}>
+                                {loading && <>
+                                    <Box>
+                                        <Skeleton variant="rectangular" height={"60px"} width={"100%"} />
+                                        <Skeleton sx={{ marginTop: "8px" }} variant="rectangular" height={"60px"} width={"100%"} />
+                                        <Skeleton sx={{ marginTop: "8px" }} variant="rectangular" height={"60px"} width={"100%"} />
+                                    </Box>
+                                </>}
+                                {!loading && categorydata && categorydata.result &&
+                                    categorydata.result.length == 0 &&
+                                    <Box sx={{ ...center, flexDirection: "column", gap: "30px", marginTop: "20px" }}>
+                                        <SubscriptionsPlaceholder />
+                                        <Box sx={{ width: "270px", ...center, flexDirection: "column", gap: "20px" }}>
+                                            <Typography variant="h4">
+                                                It looks a bit empty here!
+                                            </Typography>
+                                            <Typography variant="p">
+                                                Your Category will appear on this page. Add your first Category by clicking the “Add new” button above.
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                }
+                                {!loading && categorydata && categorydata.result && categorydata.result.length > 0 &&
+                                    categorydata.result.map((row, index) => (
+                                        <Box sx={expanseInner} key={index}
+                                            onMouseEnter={() => {
+                                                setCategoryIsMenuVisible(true);
+                                                setCurrentCategoryItem(index);
+                                            }}
+                                            onMouseLeave={() => setCategoryIsMenuVisible(false)}
+                                        >
                                             <Box>
-                                                <Avatar sx={{ bgcolor: "primary.main", width: "50px", height: "50px" }}>
-                                                    <FolderIcon />
+                                                <Avatar sx={{ bgcolor: "light.main", width: "50px", height: "50px" }}>
+                                                    {row.icon}
                                                 </Avatar>
                                             </Box>
                                             <Box sx={{
                                                 display: "flex", justifyContent: "space-between", alignItems: "flex-start", flex: "1 0 0"
                                             }}>
                                                 <Box>
-                                                    <Typography variant="h4" color={"white"}>Food</Typography>
-                                                    <Typography variant="p" color={"Gray"}>Oct 1 01:10PM</Typography>
+                                                    <Typography variant="h4" color={"white"}>{row.name}</Typography>
                                                 </Box>
                                                 <Box>
-                                                    <MenuIcon />
+                                                    {isCategoryMenuVisible && currentCategoryItem == index && (
+                                                        <Box sx={{ ...center, gap: "3px" }}>
+                                                            <ButtonBase onClick={() => { updateCategory(row) }}>
+                                                                <Update />
+                                                            </ButtonBase>
+                                                            <ButtonBase onClick={() => {
+                                                                deleteCategory(row._id)
+                                                            }}>
+                                                                <Delete />
+                                                            </ButtonBase>
+                                                        </Box>
+                                                    )}
                                                 </Box>
                                             </Box>
                                         </Box>

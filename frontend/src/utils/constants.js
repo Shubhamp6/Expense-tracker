@@ -1,4 +1,48 @@
+export const TRANSACTION_FETCH_TYPE = {
+  GRAPHICAL_VIEW: "GRAPHICAL_VIEW",
+  LIST_VIEW: "LIST_VIEW",
+};
 
+export const GRAPHICAL_VIEW_TYPE = {
+  NO_FILTER: "NO_FILTER",
+  FILTER_BY_CATEGORY: "FILTER_BY_CATEGORY",
+};
+
+export const WEEK_DAYS = {
+  1:"Sunday",
+  2:"Monday",
+  3:"Tuesday",
+  4:"wednesday",
+  5:"Thrusday",
+  6:"Friday",
+  7:"Saturday"
+};
+
+export const YEAR_MONTHS = {
+  1:"January",
+  2:"February",
+  3:"March",
+  4:"April",
+  5:"May",
+  6:"June",
+  7:"July",
+  8:"August",
+  9:"September",
+  10:"October",
+  11:"November",
+  12:"December",
+};
+
+export const GRAPHICAL_VIEW_DURATION = {
+  MONTHLY_DATA: "MONTHLY_DATA",
+  MONTH_DAYS_DATA: "MONTH_DAYS_DATA",
+  WEEK_DAYS_DATA: "WEEK_DAYS_DATA",
+};
+
+export const LIST_VIEW_TIME = {
+  DATE: "DATE",
+  ALL: "ALL",
+};
 export const USER_ROLES = {
   admin: 0,
   hr: 1,
@@ -133,13 +177,13 @@ export const LEAVE_COLORS = {
   'PL_PENDING': 'gray',
 }
 
-export const WEEKLY_OFF = [{ label: "Sun", value: 0 }, { label: "Mon", value: 1 }, { label: "Tue", value: 2 }, { label: "Wed", value: 3 }, { label: "Thu", value: 4}, { label: "Fri", value: 5 }, { label: "Sat", value: 6 }]
+export const WEEKLY_OFF = [{ label: "Sun", value: 0 }, { label: "Mon", value: 1 }, { label: "Tue", value: 2 }, { label: "Wed", value: 3 }, { label: "Thu", value: 4 }, { label: "Fri", value: 5 }, { label: "Sat", value: 6 }]
 export const NOTIFICATION_TYPE = {
   general: 'general',
   leave: 'leave',
   reimbursement: 'reimbursement',
   coff: 'coff',
-  task:'task'
+  task: 'task'
 }
 
 export const actions = {

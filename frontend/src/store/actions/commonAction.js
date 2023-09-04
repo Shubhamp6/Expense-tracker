@@ -28,8 +28,8 @@ export const callApiAction = (
           const resetFunResponse = await resetTokenApi()
           
           if (resetFunResponse.status === 1) {
-            accessToken.set(resetFunResponse.data.access_token)
-            refreshToken.set(resetFunResponse.data.refresh_token)
+            accessToken.set(resetFunResponse.data.accessToken)
+            refreshToken.set(resetFunResponse.data.refreshToken)
   
             dispatch(callApiAction(asyncFun, onSuccess, onError))
           } else if (resetFunResponse.code === 401) {
