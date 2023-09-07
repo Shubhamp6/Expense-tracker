@@ -2,7 +2,13 @@
 
 Expense Tracker is a web application designed to help you manage and track your expenses efficiently. It provides a simple and intuitive interface for recording your expenditures, categorizing them, and gaining insights through graphical representations.
 
-![Expense Tracker Screenshot](screenshot.png)
+## Screenshots
+### Dashboard
+![Expense Tracker Dashboard Page](https://github.com/Shubhamp6/Expense-tracker/assets/89521226/fe6e20db-0908-4f1d-b95b-990bcd5639cc)
+
+### Transactions Page
+![Expense Tracker Transactions Page](https://github.com/Shubhamp6/Expense-tracker/assets/89521226/438f058b-ca18-4866-a911-428ffc0d6ca4)
+
 
 ## Features
 
